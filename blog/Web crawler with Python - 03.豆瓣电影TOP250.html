@@ -1,0 +1,857 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+	<head>
+<meta name="google-site-verification" content="wRTsQbQJP49HbdD4B--2EAK4PDk5ifuapS8JeUh-Fdc" />
+	<meta charset="UTF-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    	<meta name="renderer" content="webkit">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    	<title>Web crawler with Python - 03.豆瓣电影TOP250 - xlzd杂谈</title>
+                <link rel="Shortcut Icon" href="http://7xkpi6.com1.z0.glb.clouddn.com/avatar.png" />
+        <link rel="Bootmark" href="http://7xkpi6.com1.z0.glb.clouddn.com/avatar.png" />
+                <meta name="description" content="开发环境已经搭建完成，那么让我们正式开始第一个爬虫程序吧，今天，我们的目标是——豆瓣电影TOP250。" />
+<meta name="keywords" content="Python,Crawler" />
+<meta name="generator" content="Typecho 1.0/14.10.10" />
+<meta name="template" content="material" />
+<link rel="pingback" href="http://xlzd.me/action/xmlrpc" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://xlzd.me/action/xmlrpc?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://xlzd.me/action/xmlrpc?wlw" />
+<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://xlzd.me/feed/2015/12/16/python-crawler-03" />
+<link rel="alternate" type="application/rdf+xml" title="RSS 1.0" href="http://xlzd.me/feed/rss/2015/12/16/python-crawler-03" />
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="http://xlzd.me/feed/atom/2015/12/16/python-crawler-03" />
+<script type="text/javascript">
+(function () {
+    window.TypechoComment = {
+        dom : function (id) {
+            return document.getElementById(id);
+        },
+    
+        create : function (tag, attr) {
+            var el = document.createElement(tag);
+        
+            for (var key in attr) {
+                el.setAttribute(key, attr[key]);
+            }
+        
+            return el;
+        },
+
+        reply : function (cid, coid) {
+            var comment = this.dom(cid), parent = comment.parentNode,
+                response = this.dom('respond-post-79'), input = this.dom('comment-parent'),
+                form = 'form' == response.tagName ? response : response.getElementsByTagName('form')[0],
+                textarea = response.getElementsByTagName('textarea')[0];
+
+            if (null == input) {
+                input = this.create('input', {
+                    'type' : 'hidden',
+                    'name' : 'parent',
+                    'id'   : 'comment-parent'
+                });
+
+                form.appendChild(input);
+            }
+
+            input.setAttribute('value', coid);
+
+            if (null == this.dom('comment-form-place-holder')) {
+                var holder = this.create('div', {
+                    'id' : 'comment-form-place-holder'
+                });
+
+                response.parentNode.insertBefore(holder, response);
+            }
+
+            comment.appendChild(response);
+            this.dom('cancel-comment-reply-link').style.display = '';
+
+            if (null != textarea && 'text' == textarea.name) {
+                textarea.focus();
+            }
+
+            return false;
+        },
+
+        cancelReply : function () {
+            var response = this.dom('respond-post-79'),
+            holder = this.dom('comment-form-place-holder'), input = this.dom('comment-parent');
+
+            if (null != input) {
+                input.parentNode.removeChild(input);
+            }
+
+            if (null == holder) {
+                return true;
+            }
+
+            this.dom('cancel-comment-reply-link').style.display = 'none';
+            holder.parentNode.insertBefore(response, holder);
+            return false;
+        }
+    };
+})();
+</script>
+<script type="text/javascript">
+(function () {
+    var event = document.addEventListener ? {
+        add: 'addEventListener',
+        focus: 'focus',
+        load: 'DOMContentLoaded'
+    } : {
+        add: 'attachEvent',
+        focus: 'onfocus',
+        load: 'onload'
+    };
+
+    document[event.add](event.load, function () {
+        var r = document.getElementById('respond-post-79');
+
+        if (null != r) {
+            var forms = r.getElementsByTagName('form');
+            if (forms.length > 0) {
+                var f = forms[0], textarea = f.getElementsByTagName('textarea')[0], added = false;
+
+                if (null != textarea && 'text' == textarea.name) {
+                    textarea[event.add](event.focus, function () {
+                        if (!added) {
+                            var input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = '_';
+                            input.value = (function () {
+    var _r6rxWii = '10'//'xSd'
++//'IR'
+'f78'+''///*'eB4'*/'eB4'
++'06'//'n'
++//'G'
+'G'+'6'//'QFD'
++//'D'
+'34f'+//'HQz'
+'073'+'a2'//'gG'
++//'y'
+'08'+//'j3'
+'3'+''///*'F'*/'F'
++'da0'//'I'
++'e6'//'kC'
++//'UCv'
+'663'+//'Cc'
+'6ab'+'zB'//'zB'
++'0'//'Mi'
++//'T'
+'5', _E8nb = [[7,8],[30,32]];
+    
+    for (var i = 0; i < _E8nb.length; i ++) {
+        _r6rxWii = _r6rxWii.substring(0, _E8nb[i][0]) + _r6rxWii.substring(_E8nb[i][1]);
+    }
+
+    return _r6rxWii;
+})();
+
+                            f.appendChild(input);
+                            added = true;
+                        }
+                    });
+                }
+            }
+        }
+    });
+})();
+</script>        <link rel="stylesheet" href="http://xlzd.me/usr/themes/material/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://xlzd.me/usr/themes/material/css/material.min.css">
+        <link rel="stylesheet" href="http://xlzd.me/usr/themes/material/css/ripples.min.css">
+        <link rel="stylesheet" href="http://xlzd.me/usr/themes/material/css/roboto.min.css">
+        <link rel="stylesheet" href="http://xlzd.me/usr/themes/material/css/customs.css">
+        <link rel="icon" href="http://7xkpi6.com1.z0.glb.clouddn.com/avatar.png" />
+<script>
+if(-1 != window.location.href.indexOf('php')){
+    window.location.href='http://xlzd.me/404'
+}
+</script>
+
+
+	</head>
+<body>
+	<header>
+		<div class="navbar navbar-fixed-top navbar-inverse" style="box-shadow:0px 3px 30px #002;-moz-box-shadow:0px 3px 30px #002;-webkit-box-shadow:0px 3px 30px #002;">
+			<div class="container">
+                <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" id="logo" href="http://xlzd.me/">xlzd杂谈</a>
+                </div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+				    <ul class="nav navbar-nav">
+				    	<li><a href="http://xlzd.me/"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> xlzd杂谈</a></li>
+
+				    					      								<li><a href="http://xlzd.me/category/tech/" title="技术">技术</a></li>
+				      								<li><a href="http://xlzd.me/category/isay/" title="杂谈">杂谈</a></li>
+				      	
+				        				      								<li><a href="http://xlzd.me/music" title="音乐">音乐</a></li>
+				      								<li><a href="http://xlzd.me/about" title="关于">关于</a></li>
+				      					    </ul>
+                    			  	</div>
+			</div>
+		</div>
+	</header>
+
+
+<div class="container" id="main">
+    <div class="row">
+
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3 class="post-title"><a href="http://xlzd.me/2015/12/16/python-crawler-03" target="_blank">Web crawler with Python - 03.豆瓣电影TOP250</a></h3>
+                    <div class="post-meta">
+                        <span>作者：<a href="http://xlzd.me" target="_blank">xlzd</a> | </span>
+                        <!-- <span>作者：<a href="http://xlzd.me/author/1/">xlzd</a> | </span> -->
+                        <span>时间：2015-12-16 20:29:00 | </span>
+                        <span>分类：<a href="http://xlzd.me/category/tech/">技术</a> | </span>
+                        <span>评论：<a href="http://xlzd.me/2015/12/16/python-crawler-03">15 评论</a> </span>
+                    </div>
+                    <div class="post-content"><p>开发环境已经搭建完成，那么让我们正式开始第一个爬虫程序吧，今天，我们的目标是——<a href="http://movie.douban.com/top250">豆瓣电影TOP250</a>。</p>
+<p><img src="http://7xkpi6.com1.z0.glb.clouddn.com/blog/2015/12/16/2986356640.png" alt="doubanmovie" /></p>
+<!--more-->
+<p>和完成其他代码一样，编写爬虫之前，我们需要先思考爬虫需要干什么、目标网站有什么特点，以及根据目标网站的数据量和数据特点选择合适的架构。编写爬虫之前，推荐使用Chrome的开发者工具来观察网页结构。在OS X上，通过&quot;option+command+i&quot;可以打开Chrome的开发者工具，在Windows和Linux，对应的快捷键是&quot;F12&quot;。效果如下：<br />
+<img src="http://7xkpi6.com1.z0.glb.clouddn.com/blog/2015/12/16/1838869195.png" alt="屏幕快照 2015-12-16 19.23.34.png" /></p>
+<p>OK，可以看出，这个页面其实有一个列表，其中放着25条电源信息。我们选中某一条电影，右键选择<strong>检查</strong>即可查看选中条目的HTML结构。如下图所示：</p>
+<p><img src="http://7xkpi6.com1.z0.glb.clouddn.com/blog/2015/12/16/3390034309.png" alt="屏幕快照 2015-12-16 19.26.40.png" /></p>
+<p>到这一步，我们已经得到的信息有如下：</p>
+<ol>
+<li>每页有25条电影，共有10页。</li>
+<li>电影列表在页面上的位置为一个class属性为<code>grid_view</code>的<code>ol</code>标签中。</li>
+<li>每条电影信息放在这个<code>ol</code>标签的一个<code>li</code>标签里。</li>
+</ol>
+<p>到这一步，我们可以开始写代码了。先完成下载网页源码的代码吧，这里我们使用requests库：</p>
+<pre><code class="language-Python">#!/usr/bin/env python
+# encoding=utf-8
+
+import requests
+
+DOWNLOAD_URL = 'http://movie.douban.com/top250'
+
+
+def download_page(url):
+    data = requests.get(url).content
+    return data
+
+
+def main():
+    print download_page(DOWNLOAD_URL)
+
+
+if __name__ == '__main__':
+    main()
+
+</code></pre>
+<p>先来简单测试一下，没想到运行之后得到的结果是：</p>
+<pre><code class="language-HTML">&lt;html&gt;
+&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;
+&lt;body bgcolor=&quot;white&quot;&gt;
+&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;
+&lt;hr&gt;&lt;center&gt;dae&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>产生403的原因，一般可能是因为需要登录的网站没有登录或者被服务器认为是爬虫而拒绝访问，这里很显然属于第二种情况。一般，浏览器在向服务器发送请求的时候，会有一个请求头——<code>User-Agent</code>，它用来标识浏览器的类型.当我们使用requests来发送请求的时候，默认的User-Agent是<code>python-requests/2.8.1</code>（后面的数字可能不同，表示版本号）。那么，我们试试看如果将User-Agent伪装成浏览器的，会不会解决这个问题呢？</p>
+<pre><code class="language-Python">#!/usr/bin/env python
+# encoding=utf-8
+
+import requests
+
+DOWNLOAD_URL = 'http://movie.douban.com/top250/'
+
+
+def download_page(url):
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.80 Safari/537.36'
+    }
+    data = requests.get(url, headers=headers).content
+    return data
+
+
+def main():
+    print download_page(DOWNLOAD_URL)
+
+
+if __name__ == '__main__':
+    main()
+
+</code></pre>
+<p>上面的代码中，我们通过手动指定User-Agent为Chrome浏览器，再此访问就得到了真实的网页源码。<strong>服务器通过校验请求的U-A来识别爬虫，这算是最简单的一种反爬虫机制了，通过模拟浏览器的U-A，能够很轻松地绕过这个问题。</strong></p>
+<p>当我们拿到网页源码之后，就需要解析HTML源码了。这里，我们使用BeautifulSoup来搞定这件事。在使用之前，你需要通过运行<code>pip install beautifulsoup4</code>来安装BeautifulSoup。</p>
+<p>使用BeautifulSoup解析网页的大致过程如下：</p>
+<pre><code class="language-Python"> 1. from bs4 import BeautifulSoup
+ 2. 
+ 3. def parse_html(html):
+ 4. 
+ 5.     soup = BeautifulSoup(html)
+ 6. 
+ 7.     movie_list_soup = soup.find('ol', attrs={'class': 'grid_view'})
+ 8.
+ 9.     for movie_li in movie_list_soup.find_all('li'):
+10.
+11.         detail = movie_li.find('div', attrs={'class': 'hd'})
+12.         movie_name = detail.find('span', attrs={'class': 'title'}).getText()
+13.
+14.         print movie_name
+</code></pre>
+<p>我将详细解释这段代码：<code>import</code>用来导入BeautifulSoup，这很容易理解。接着我们定义了函数<code>parse_html</code>，它接受html源码作为输入，并将这个网页中的电影名称打印到控制台。第5行我们创建了一个BeautifulSoup对象（这样的创建方式会产生一个warning，我们下一节再聊这个问题），然后紧接着在第7行使用刚刚创建的对象搜索这篇html文档中查找那个class为grid_view的ol标签（上面分析的第2步），接着通过<code>find_all</code>方法，我们得到了电影的集合，通过对它迭代取出每一个电影的名字，打印出来。至于<code>for</code>循环之间的内容，其实就是在解析每个<code>li</code>标签。你可以很简单的在刚才的浏览器窗口通过开发者工具查看<code>li</code>中的网页结构。</p>
+<p>到这一步，我们已经得到了电影名称（由于只是演示BeautifulSoup的用法，这里不详细取出每条电影的所有信息），刚才提到一共有10页数据，怎么处理翻页的问题呢？一般在我们确定内容的前提下，可以直接在代码中写死如何跳转页面，但是为了让我们的爬虫更像爬虫，我们让它找到页码导航中的下一页的链接。<br />
+<img src="http://7xkpi6.com1.z0.glb.clouddn.com/blog/2015/12/16/2963033200.png" alt="屏幕快照 2015-12-16 20.07.06.png" /></p>
+<p>还是借助开发者工具，我们找到了下一页的链接放置在一个<code>span</code>标签中，这个span标签的class为<code>next</code>。具体链接则在这个span的a标签中，到了最后一页之后，这个span中的a标签消失了，就不需要再翻页了。于是，根据这段逻辑，我们将上面<code>parse_html</code>函数稍作修改：</p>
+<pre><code class="language-Python">
+def parse_html(html):
+    soup = BeautifulSoup(html)
+    movie_list_soup = soup.find('ol', attrs={'class': 'grid_view'})
+
+    movie_name_list = []
+
+    for movie_li in movie_list_soup.find_all('li'):
+        detail = movie_li.find('div', attrs={'class': 'hd'})
+        movie_name = detail.find('span', attrs={'class': 'title'}).getText()
+
+        movie_name_list.append(movie_name)
+
+    next_page = soup.find('span', attrs={'class': 'next'}).find('a')
+    if next_page:
+        return movie_name_list, DOWNLOAD_URL + next_page['href']
+    return movie_name_list, None
+</code></pre>
+<p>我们需要在解析html之后取回我们需要的数据，于是将打印变成了返回一个包含电影名的<code>list</code>，以及下一页的链接，如果到了最后一页，则返回None。</p>
+<p>到这里，大部分代码已经完成了，我们将其组装成一个完整的程序即可：</p>
+<pre><code class="language-Python">import codecs
+
+def main():
+    url = DOWNLOAD_URL
+
+    with codecs.open('movies', 'wb', encoding='utf-8') as fp:
+        while url:
+            html = download_page(url)
+            movies, url = parse_html(html)
+            fp.write(u'{movies}\n'.format(movies='\n'.join(movies)))
+</code></pre>
+<p>上面的代码完成了对程序的拼装，并将结果输出到一个文件中，其中使用了<code>codecs</code>这个包是为了更方便处理中文编码。当程序运行结束之后，所有的电影名称就都写入到了movies这个文件中。</p>
+<h3>小结</h3>
+<p>这篇博客总结了最简单的处理反爬虫机制，以及简单的BeautifulSoup的使用，最后完成了将结果写入到文件中去。麻雀虽小，五脏俱全，这个程序虽然功能简单，但却算是一个完整的爬虫程序了。<br />
+接下来，我们将会面临更加复杂的反爬虫机制，面对更加复杂的网页结构，以及会使用数据库来持久化存储爬取结果。</p>
+<p>完整的代码如下：</p>
+<pre><code class="language-Python">#!/usr/bin/env python
+# encoding=utf-8
+
+&quot;&quot;&quot;
+爬取豆瓣电影TOP250 - 完整示例代码
+&quot;&quot;&quot;
+
+import codecs
+
+import requests
+from bs4 import BeautifulSoup
+
+DOWNLOAD_URL = 'http://movie.douban.com/top250/'
+
+
+def download_page(url):
+    return requests.get(url, headers={
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.80 Safari/537.36'
+    }).content
+
+
+def parse_html(html):
+    soup = BeautifulSoup(html)
+    movie_list_soup = soup.find('ol', attrs={'class': 'grid_view'})
+
+    movie_name_list = []
+
+    for movie_li in movie_list_soup.find_all('li'):
+        detail = movie_li.find('div', attrs={'class': 'hd'})
+        movie_name = detail.find('span', attrs={'class': 'title'}).getText()
+
+        movie_name_list.append(movie_name)
+
+    next_page = soup.find('span', attrs={'class': 'next'}).find('a')
+    if next_page:
+        return movie_name_list, DOWNLOAD_URL + next_page['href']
+    return movie_name_list, None
+
+
+def main():
+    url = DOWNLOAD_URL
+
+    with codecs.open('movies', 'wb', encoding='utf-8') as fp:
+        while url:
+            html = download_page(url)
+            movies, url = parse_html(html)
+            fp.write(u'{movies}\n'.format(movies='\n'.join(movies)))
+
+
+if __name__ == '__main__':
+    main()
+
+</code></pre>
+</div>
+
+		    <br>
+                    <hr>
+
+                    <div style="text-align:center;float:left;marin-right:10px">
+                        <a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">
+                            <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/3.0/cn/88x31.png">
+                        </a>
+                        <br>
+                            本博客采用<a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/"><b>BY-NC-SA</b></a>协议进行许可
+                    </div>
+
+		    <div class="bdsharebuttonbox" style="text-align:right;float:right;marin-right:10px">
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":[],"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+                </div>
+            </div>
+            <p class="tags">标签：<a href="http://xlzd.me/tag/Python/">Python</a> , <a href="http://xlzd.me/tag/crawler/">Crawler</a></p>
+            <div class="row">
+    <div id="comments">
+
+
+<div class="alert alert-info">
+    <span id="commentCount">已有 15 条评论</span>
+</div>
+<ol class="comment-list"><li itemscope itemtype="http://schema.org/UserComments" id="comment-42" class="comment-body comment-parent comment-odd">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/a0e016e0124c2ac0d9ec9b1933b2714f?s=32&amp;r=R&amp;d=" alt="小邱" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">小邱</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-42"><time itemprop="commentTime" datetime="2015-12-21T20:17:44+08:00">2015-12-21 20:17:44</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>请问一下，我使用get方法请求http://movie.douban.com/top250的时候，没有设置headers的user-agent字段，但是同样也得到了正确的响应。是因为requests库进行了更新还是豆瓣其实没有对user-agent进行验证呢？By the way，博客写的很好，我从知乎跟过来的，而且这个评论字体我十分中意，随便一求~</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=42#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-42', 42);">回复</a>    </div>
+        <div class="comment-children" itemprop="discusses">
+        <ol class="comment-list"><li itemscope itemtype="http://schema.org/UserComments" id="comment-43" class="comment-body comment-child comment-level-odd comment-odd comment-by-author">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/4003de6072c11c536559c0ee2b66e7e7?s=32&amp;r=R&amp;d=" alt="xlzd" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name"><a href="http://xlzd.me" rel="external nofollow">xlzd</a></cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-43"><time itemprop="commentTime" datetime="2015-12-21T22:00:52+08:00">2015-12-21 22:00:52</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>requests默认的UA是&quot;python-requests/&quot; + 版本号，所以更可能是因为豆瓣没有校验UA。</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=43#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-43', 43);">回复</a>    </div>
+        <div class="comment-children" itemprop="discusses">
+        <ol class="comment-list"><li itemscope itemtype="http://schema.org/UserComments" id="comment-44" class="comment-body comment-child comment-level-even comment-odd">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/a0e016e0124c2ac0d9ec9b1933b2714f?s=32&amp;r=R&amp;d=" alt="小邱" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">小邱</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-44"><time itemprop="commentTime" datetime="2015-12-22T00:01:55+08:00">2015-12-22 00:01:55</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>了解，谢谢啦~~</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=44#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-44', 44);">回复</a>    </div>
+    </li>
+</ol>    </div>
+    </li>
+</ol>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-47" class="comment-body comment-parent comment-even">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/9922c14e651f472ca09906cb4b0c7d0a?s=32&amp;r=R&amp;d=" alt="rayzhang" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">rayzhang</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-47"><time itemprop="commentTime" datetime="2015-12-25T09:36:01+08:00">2015-12-25 09:36:01</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>请问这个最后的文件 “movie&quot;用什么打开啊，打开的都是乱码的</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=47#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-47', 47);">回复</a>    </div>
+        <div class="comment-children" itemprop="discusses">
+        <ol class="comment-list"><li itemscope itemtype="http://schema.org/UserComments" id="comment-48" class="comment-body comment-child comment-level-odd comment-odd comment-by-author">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/4003de6072c11c536559c0ee2b66e7e7?s=32&amp;r=R&amp;d=" alt="xlzd" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name"><a href="http://xlzd.me" rel="external nofollow">xlzd</a></cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-48"><time itemprop="commentTime" datetime="2015-12-25T14:16:34+08:00">2015-12-25 14:16:34</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>是一个文本文件，在OS X和Linux可以直接打开，在Windows可以用常见的文本编辑器打开（可能需要手动指定编码）</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=48#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-48', 48);">回复</a>    </div>
+    </li>
+</ol>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-54" class="comment-body comment-parent comment-odd">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/394b917d9e882f04e00c40869cbe52ce?s=32&amp;r=R&amp;d=" alt="sjokzer" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">sjokzer</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-54"><time itemprop="commentTime" datetime="2016-01-12T17:03:14+08:00">2016-01-12 17:03:14</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>写的很好！</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=54#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-54', 54);">回复</a>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-69" class="comment-body comment-parent comment-even">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/ac7341f8167185b62485e2c034648ff4?s=32&amp;r=R&amp;d=" alt="henk" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">henk</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-69"><time itemprop="commentTime" datetime="2016-02-04T15:07:12+08:00">2016-02-04 15:07:12</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>博主，您好</p>
+<p>这边有个内容不是很能理解</p>
+if next_page:
+    return movie_name_list, DOWNLOAD_URL + next_page['href']
+
+<p>这个判断是否有下一页，如果有下一页就，回传 movie_name_list，DOWNLOAD_URL + next_page['href']，然后下一步是跳到哪，为什么可以继续爬？</p>
+<p>因为我之前都是用for循环来换页的，这个return的用法不是很理解</p>
+<p>还请博主指点下，谢谢。</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=69#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-69', 69);">回复</a>    </div>
+        <div class="comment-children" itemprop="discusses">
+        <ol class="comment-list"><li itemscope itemtype="http://schema.org/UserComments" id="comment-72" class="comment-body comment-child comment-level-odd comment-odd">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/ac7341f8167185b62485e2c034648ff4?s=32&amp;r=R&amp;d=" alt="henk" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">henk</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-72"><time itemprop="commentTime" datetime="2016-02-05T14:04:40+08:00">2016-02-05 14:04:40</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>自己看懂了~脑子没转过来= =</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=72#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-72', 72);">回复</a>    </div>
+        <div class="comment-children" itemprop="discusses">
+        <ol class="comment-list"><li itemscope itemtype="http://schema.org/UserComments" id="comment-143" class="comment-body comment-child comment-level-even comment-odd">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/3f44e07cf8895db9d4bb39948cfa1275?s=32&amp;r=R&amp;d=" alt="天牛" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">天牛</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-143"><time itemprop="commentTime" datetime="2016-08-26T13:33:48+08:00">2016-08-26 13:33:48</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>我没看懂，能帮忙解答一下吗</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=143#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-143', 143);">回复</a>    </div>
+    </li>
+</ol>    </div>
+    </li>
+</ol>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-77" class="comment-body comment-parent comment-odd">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/abe2d69cf1971aaea16a890aa2c976b6?s=32&amp;r=R&amp;d=" alt="张全蛋" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">张全蛋</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-77"><time itemprop="commentTime" datetime="2016-02-17T10:37:08+08:00">2016-02-17 10:37:08</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>写一个爬虫结果特别不如意，就想着说先找一个实例……<br>
+博主，你写的实例不错！</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=77#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-77', 77);">回复</a>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-124" class="comment-body comment-parent comment-even">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/12baa14429fb0edfd8ce9d2b1200926a?s=32&amp;r=R&amp;d=" alt="咸鱼" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">咸鱼</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-124"><time itemprop="commentTime" datetime="2016-07-08T14:52:29+08:00">2016-07-08 14:52:29</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>从知乎过来的，写的很好</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=124#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-124', 124);">回复</a>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-148" class="comment-body comment-parent comment-odd">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/d22c87631b5233847b47f437d7e6b236?s=32&amp;r=R&amp;d=" alt="Da风" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">Da风</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-148"><time itemprop="commentTime" datetime="2016-11-15T12:15:12+08:00">2016-11-15 12:15:12</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>@xlzd，您好，为什么我用eclipse 编写上面的爬虫代码，<br>
+第11行“from bs4 import BeautifulSoup” 的“BeautifulSoup”会有报错（红色下划线）。<br>
+运行后，出现错误：<br>
+C:\Python27\lib\site-packages\bs4_init_.py:181: UserWarning: No parser was explicitly specified, so I'm using the best available HTML parser for this system (&quot;html.parser&quot;). This usually isn't a problem, but if you run this code on another system, or in a different virtual environment, it may use a different parser and behave differently.</p>
+<p>The code that caused this warning is on line 44 of the file C:\Documents and Settings\Dafeng\workspace\TextRequests\src\Pypachong\DouBaiTop250.py. To get rid of this warning, change code that looks like this:</p>
+<p>BeautifulSoup([your markup])</p>
+<p>to this:</p>
+<p>BeautifulSoup([your markup], &quot;html.parser&quot;)</p>
+<p>markup_type=markup_type))</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=148#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-148', 148);">回复</a>    </div>
+        <div class="comment-children" itemprop="discusses">
+        <ol class="comment-list"><li itemscope itemtype="http://schema.org/UserComments" id="comment-149" class="comment-body comment-child comment-level-odd comment-odd">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/d22c87631b5233847b47f437d7e6b236?s=32&amp;r=R&amp;d=" alt="Da风" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">Da风</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-149"><time itemprop="commentTime" datetime="2016-11-15T12:44:36+08:00">2016-11-15 12:44:36</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>明白了。反复看回你的文章才明白的。</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=149#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-149', 149);">回复</a>    </div>
+    </li>
+</ol>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-155" class="comment-body comment-parent comment-even">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/bf566f65455fc23f1ee0e83dae2840b8?s=32&amp;r=R&amp;d=" alt="CvnYv" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">CvnYv</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-155"><time itemprop="commentTime" datetime="2016-11-23T22:18:44+08:00">2016-11-23 22:18:44</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>感谢博主,写得很好,嚼了一晚上</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=155#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-155', 155);">回复</a>    </div>
+        <div class="comment-children" itemprop="discusses">
+        <ol class="comment-list"><li itemscope itemtype="http://schema.org/UserComments" id="comment-156" class="comment-body comment-child comment-level-odd comment-odd">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/bf566f65455fc23f1ee0e83dae2840b8?s=32&amp;r=R&amp;d=" alt="CvnYv" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">CvnYv</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03#comment-156"><time itemprop="commentTime" datetime="2016-11-23T22:25:15+08:00">2016-11-23 22:25:15</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>受益匪浅</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2015/12/16/python-crawler-03?replyTo=156#respond-post-79" rel="nofollow" onclick="return TypechoComment.reply('comment-156', 156);">回复</a>    </div>
+    </li>
+</ol>    </div>
+    </li>
+</ol><div id="respond-post-79" class="respond">
+<div class="respond panel panel-default">
+	<div class="panel-body">
+		<div class="cancel-comment-reply"></div>
+		<h3 id="response">添加新评论</h3>
+		<!-- 输入表单开始 -->
+		    <form method="post" action="http://xlzd.me/2015/12/16/python-crawler-03/comment" id="comment_form" class="form-horizontal">
+		        <!-- 如果当前用户已经登录 -->
+		        
+		    	<div class="form-group">
+		    		<label for="author" class="col-sm-2 control-label required">昵称</label>
+		    		<div class="col-sm-9">
+		    			<div class="form-control-wrapper">
+		    				<input type="text" name="author" class="form-control text empty" size="35" value="" />
+		    				<span class="material-input"></span>
+		    			</div>
+		    		</div>
+		    	</div>
+				<div class="form-group">
+		    		<label for="mail" class="col-sm-2 control-label required">邮箱</label>
+		    		<div class="col-sm-9">
+		    			<div class="form-control-wrapper">
+		    				<input type="email" name="mail" class="form-control text empty" size="35" value="" />
+		    				<span class="material-input"></span>
+		    			</div>
+		    		</div>
+		    	</div>
+		    	<div class="form-group">
+		    		<label for="url" class="col-sm-2 control-label required">网站</label>
+		    		<div class="col-sm-9">
+		    			<div class="form-control-wrapper">
+		    				<input type="url" name="url" class="form-control text empty" size="35" value="" placeholder="http://"/>
+		    				<span class="material-input"></span>
+		    			</div>
+		    		</div>
+		    	</div>
+		        
+		        <div class="form-group">
+		    		<label for="textarea" class="col-sm-2 control-label required">内容</label>
+		    		<div class="col-sm-9">
+		    			<div class="form-control-wrapper">
+		    				<textarea rows="5" cols="50" name="text" id="textarea" class="form-control textarea  empty" required=""></textarea>
+		    				<span class="material-input"></span>
+		    			</div>
+		    		</div>
+		    	</div>
+		    	<div class="form-group">
+		    		<div class="col-sm-offset-2 col-sm-5">
+		    			<button type="submit" id="submit" class="btn btn-success btn-raised submit">提交评论</button>
+		    		</div>
+		    	</div>
+		    </form>
+	</div>
+</div>
+</div>
+</div>
+</div>
+
+        </div>
+
+    <div class="col-md-3">
+		<form method="post" action="" class="panel-body">
+		<div class="input-group">
+			<div class="form-control-wrapper">
+				<input type="text" name="s" class="form-control floating-label" placeholder="搜索" size="32" />
+			</div>
+			<span class="input-group-btn">
+		    	<button class="btn btn-primary btn-fab btn-raised mdi-action-search" value="" id="search-btn" type="submit"></button>
+			</span>
+		</div>
+	</form>
+	
+                <div class="panel panel-info">
+            <a style="background-color: black" class="panel-heading" onclickr="$('.other_box').slideToggle()" href="javascript:;">
+                <h3 class="panel-title"><b>微信公众号</b></h3>
+            </a>
+            <div class="other_box">
+
+                 <!-- <img alt="xlzd talk" style="width:100%" src="http://xlzd.me/usr/uploads/common/wechat.jpg">-->
+                 <img alt="xlzd talk" style="width:100%" src="https://xlzd.me/usr/uploads/common/xlzdtalk.jpg">
+<!--
+<div class="github-card" data-user="xlzd"></div>
+<script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+-->
+            </div>
+        </div>
+        	
+		<div class="panel panel-info">
+	    <a class="panel-heading" onclick="$('.recent_posts_box').slideToggle()" href="javascript:;">
+	        <h3 class="panel-title">最新文章</h3>
+	    </a>
+	    <div class="recent_posts_box">
+	       <a href="http://xlzd.me/2016/11/19/xart" class="item">xart: generate art ascii texts. </a><a href="http://xlzd.me/2016/10/06/python-one-line-rm-rf" class="item">Python 乱码指北：一行删掉根目录</a><a href="http://xlzd.me/2016/07/09/object-in-py" class="item">Python 中的对象概述</a><a href="http://xlzd.me/2016/07/08/compile-py" class="item">从源码编译 Python</a><a href="http://xlzd.me/2016/06/27/openvpn" class="item">怎样在 Ubuntu 16.04 上安装 OpenVPN 服务</a><a href="http://xlzd.me/2016/05/31/longquansi" class="item">五月晦忆五月朔与老夏小事</a><a href="http://xlzd.me/2016/05/20/ellipsis" class="item">优雅的 Python 之 Ellipsis</a><a href="http://xlzd.me/2016/03/30/string-compress" class="item">一道关于字符串的面试题</a><a href="http://xlzd.me/2016/03/26/is-unique-char" class="item">如何确定一个字符串中是否所有字符全部互不相同</a><a href="http://xlzd.me/2016/03/14/sp-sort" class="item">几种无用但有趣的排序算法</a>	    </div>
+	</div>
+	
+			<div class="panel panel-info">
+	    <a class="panel-heading" onclick="$('.comments_box').slideToggle()" href="javascript:;">
+	        <h3 class="panel-title">最新回复</h3>
+	    </a>
+	    <div class="comments_box">
+						    <a href="http://xlzd.me/2015/12/11/requests#comment-171" class="item">藏锋: 很好的爬虫知识，感谢博主的工作！！
+</a>
+						    <a href="http://xlzd.me/2016/03/05/sc-internet#comment-170" class="item">icybee: cool，当作职业规划的参考啦～
+</a>
+						    <a href="http://xlzd.me/2015/12/15/graph#comment-169" class="item">下载了软件无从下手的小朋友: 此刻是最好的连同着疑问都是最好的
+</a>
+						    <a href="http://xlzd.me/2016/06/27/openvpn#comment-168" class="item">下载了软件无从下手的小朋友: 您好呀～程序员小哥哥，可以录个视频么，好想试一试啊 可...</a>
+						    <a href="http://xlzd.me/2016/03/26/is-unique-char#comment-167" class="item">loftnova: pool = set()
+for char in s:...</a>
+						    <a href="http://xlzd.me/2016/03/26/is-unique-char#comment-166" class="item">Roll: len(set(string)) == len(str...</a>
+						    <a href="http://xlzd.me/2016/03/05/sc-internet#comment-165" class="item">xlzd: 其实不需要太多 JS 知识。
+</a>
+						    <a href="http://xlzd.me/2016/03/05/sc-internet#comment-164" class="item">再见蒲公英: 如果要学会这样的可视化，就得先学JS，对吗？
+</a>
+						    <a href="http://xlzd.me/2016/10/06/python-one-line-rm-rf#comment-163" class="item">Rancho: 哈哈哈, 笑出声
+</a>
+						    <a href="http://xlzd.me/2016/03/05/sc-internet#comment-162" class="item">xlzd: echarts + PyGal
+</a>
+				    </div>
+	</div>
+	
+			<div class="panel panel-info">
+	    <a class="panel-heading" onclick="$('.tags_box').slideToggle()" href="javascript:;">
+	        <h3 class="panel-title">标签</h3>
+	    </a>
+				<div class="tags_box">
+						    <a href="http://xlzd.me/tag/Python/" rel="tag" class="item size-0" title="37 个话题">Python<span class="badge pull-right"> 37</span></a>
+						    <a href="http://xlzd.me/tag/crawler/" rel="tag" class="item size-20" title="10 个话题">Crawler<span class="badge pull-right"> 10</span></a>
+						    <a href="http://xlzd.me/tag/algotithm/" rel="tag" class="item size-5" title="4 个话题">算法<span class="badge pull-right"> 4</span></a>
+						    <a href="http://xlzd.me/tag/re/" rel="tag" class="item size-5" title="3 个话题">re<span class="badge pull-right"> 3</span></a>
+						    <a href="http://xlzd.me/tag/MongoDB/" rel="tag" class="item size-5" title="3 个话题">MongoDB<span class="badge pull-right"> 3</span></a>
+								</div>
+	</div>
+		 
+		<div class="panel panel-info">
+	    <a class="panel-heading" onclick="$('.article_cate_box').slideToggle()" href="javascript:;">
+	        <h3 class="panel-title">归档</h3>
+	    </a>
+	    <div class="article_cate_box">
+	       <a href="http://xlzd.me/2016/11/" class="item">2016-11</a><a href="http://xlzd.me/2016/10/" class="item">2016-10</a><a href="http://xlzd.me/2016/07/" class="item">2016-07</a><a href="http://xlzd.me/2016/06/" class="item">2016-06</a><a href="http://xlzd.me/2016/05/" class="item">2016-05</a><a href="http://xlzd.me/2016/03/" class="item">2016-03</a><a href="http://xlzd.me/2016/01/" class="item">2016-01</a><a href="http://xlzd.me/2015/12/" class="item">2015-12</a><a href="http://xlzd.me/2015/11/" class="item">2015-11</a><a href="http://xlzd.me/2015/10/" class="item">2015-10</a><a href="http://xlzd.me/2015/09/" class="item">2015-09</a><a href="http://xlzd.me/2015/08/" class="item">2015-08</a><a href="http://xlzd.me/2015/07/" class="item">2015-07</a><a href="http://xlzd.me/2015/05/" class="item">2015-05</a><a href="http://xlzd.me/2015/04/" class="item">2015-04</a><a href="http://xlzd.me/2015/03/" class="item">2015-03</a><a href="http://xlzd.me/2015/02/" class="item">2015-02</a><a href="http://xlzd.me/2015/01/" class="item">2015-01</a><a href="http://xlzd.me/2014/12/" class="item">2014-12</a>	    </div>
+	</div>
+	        <div class="panel panel-info"><a class="panel-heading" onclick="$('.links_box').
+		slideToggle()" href="javascript:;"><h3 class="panel-title">友情链接</h3></a><div class="links_box"><a class="item" href="http://blog.94fzb.com/" title="Chun's blog" target="_blank">Chun' s blog </a>
+<a class="item" href="http://rockyblog.cn" title="" target="_blank">rockyblog</a>
+<a class="item" href="http://www.yangbajing.me/" title="" target="_blank">羊八井花园</a>
+<a class="item" href="http://life.zhangxingqiu.cn/" title="" target="_blank">小正说事</a>
+<a class="item" href="http://zhuanlan.zhihu.com/xlz-d" title="" target="_blank">我的知乎专栏</a>
+</div></div></div>
+
+    
+	<!--
+	<script src="//cdn.bootcss.com/bootstrap-material-design/0.3.0/js/material.min.js"></script>
+	<script src="//cdn.bootcss.com/bootstrap-material-design/0.3.0/js/ripples.min.js"></script>
+        -->
+	<script src="https://xlzd.me/usr/themes/material/js/snow-v3.jquery.js"></script>
+	</div>
+	</div>
+	<footer>
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="pull-left copyright">Copyright &copy; 2016&nbsp;&nbsp;<a href='/'>xlzd杂谈</a></div>
+				<ul class="footer-nav pull-right">
+                                        <li><a href="https://www.zhihu.com/people/xlzd" target="_blank" class="icon-zhihu" title="知乎">知乎</a></li>
+                                        <li><a href="http://weibo.com/duxu0805" target="_blank" class="icon-weibo" title="微博">微博</a></li>
+                                        <li><a href="https://github.com/xlzd" target="_blank" class="icon-github" title="Github">Github</a></li>
+					
+									</ul>
+			</div>
+		</div>
+	</footer>
+	<script src="http://xlzd.me/usr/themes/material/js/jquery-2.1.4.min.js"></script>
+	<script src="http://xlzd.me/usr/themes/material/js/bootstrap.min.js"></script>
+	<script src="http://xlzd.me/usr/themes/material/js/material.min.js"></script>
+	<script src="http://xlzd.me/usr/themes/material/js/ripples.min.js"></script>
+	<script>
+      $.material.init();
+    </script>
+
+
+<div style="display: none">
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?70df08067fbb3792c8ee0bc6eb269fd8";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</div>
+
+    </body>
+</html>

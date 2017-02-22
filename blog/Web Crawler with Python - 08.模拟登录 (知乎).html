@@ -1,0 +1,691 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+	<head>
+<meta name="google-site-verification" content="wRTsQbQJP49HbdD4B--2EAK4PDk5ifuapS8JeUh-Fdc" />
+	<meta charset="UTF-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    	<meta name="renderer" content="webkit">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    	<title>Web Crawler with Python - 08.模拟登录 (知乎) - xlzd杂谈</title>
+                <link rel="Shortcut Icon" href="http://7xkpi6.com1.z0.glb.clouddn.com/avatar.png" />
+        <link rel="Bootmark" href="http://7xkpi6.com1.z0.glb.clouddn.com/avatar.png" />
+                <meta name="description" content="在抓取数据的过程中，经常会遇到需要登录的网站，尤其是抓取社交（微博、豆瓣等）网站，几乎无法避开模拟登录。由于自己本身很喜欢玩知乎，加上知乎的模拟登录并不是十分复杂，十分利于教学其他人，这篇博客将..." />
+<meta name="keywords" content="Python,Crawler" />
+<meta name="generator" content="Typecho 1.0/14.10.10" />
+<meta name="template" content="material" />
+<link rel="pingback" href="http://xlzd.me/action/xmlrpc" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://xlzd.me/action/xmlrpc?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://xlzd.me/action/xmlrpc?wlw" />
+<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://xlzd.me/feed/2016/01/12/python-crawler-08" />
+<link rel="alternate" type="application/rdf+xml" title="RSS 1.0" href="http://xlzd.me/feed/rss/2016/01/12/python-crawler-08" />
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="http://xlzd.me/feed/atom/2016/01/12/python-crawler-08" />
+<script type="text/javascript">
+(function () {
+    window.TypechoComment = {
+        dom : function (id) {
+            return document.getElementById(id);
+        },
+    
+        create : function (tag, attr) {
+            var el = document.createElement(tag);
+        
+            for (var key in attr) {
+                el.setAttribute(key, attr[key]);
+            }
+        
+            return el;
+        },
+
+        reply : function (cid, coid) {
+            var comment = this.dom(cid), parent = comment.parentNode,
+                response = this.dom('respond-post-107'), input = this.dom('comment-parent'),
+                form = 'form' == response.tagName ? response : response.getElementsByTagName('form')[0],
+                textarea = response.getElementsByTagName('textarea')[0];
+
+            if (null == input) {
+                input = this.create('input', {
+                    'type' : 'hidden',
+                    'name' : 'parent',
+                    'id'   : 'comment-parent'
+                });
+
+                form.appendChild(input);
+            }
+
+            input.setAttribute('value', coid);
+
+            if (null == this.dom('comment-form-place-holder')) {
+                var holder = this.create('div', {
+                    'id' : 'comment-form-place-holder'
+                });
+
+                response.parentNode.insertBefore(holder, response);
+            }
+
+            comment.appendChild(response);
+            this.dom('cancel-comment-reply-link').style.display = '';
+
+            if (null != textarea && 'text' == textarea.name) {
+                textarea.focus();
+            }
+
+            return false;
+        },
+
+        cancelReply : function () {
+            var response = this.dom('respond-post-107'),
+            holder = this.dom('comment-form-place-holder'), input = this.dom('comment-parent');
+
+            if (null != input) {
+                input.parentNode.removeChild(input);
+            }
+
+            if (null == holder) {
+                return true;
+            }
+
+            this.dom('cancel-comment-reply-link').style.display = 'none';
+            holder.parentNode.insertBefore(response, holder);
+            return false;
+        }
+    };
+})();
+</script>
+<script type="text/javascript">
+(function () {
+    var event = document.addEventListener ? {
+        add: 'addEventListener',
+        focus: 'focus',
+        load: 'DOMContentLoaded'
+    } : {
+        add: 'attachEvent',
+        focus: 'onfocus',
+        load: 'onload'
+    };
+
+    document[event.add](event.load, function () {
+        var r = document.getElementById('respond-post-107');
+
+        if (null != r) {
+            var forms = r.getElementsByTagName('form');
+            if (forms.length > 0) {
+                var f = forms[0], textarea = f.getElementsByTagName('textarea')[0], added = false;
+
+                if (null != textarea && 'text' == textarea.name) {
+                    textarea[event.add](event.focus, function () {
+                        if (!added) {
+                            var input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = '_';
+                            input.value = (function () {
+    var _245Yi3Y = //'J'
+'a9a'+//'2m'
+'944'+'u6'//'u6'
++/* 'o'//'o' */''+//'g'
+'3'+//'lG'
+'b80'+'33'//'A2'
++/* 'Sf'//'Sf' */''+''///*'Vf'*/'Vf'
++//'a0'
+'4'+'a'//'Xk7'
++'4'//'6c'
++'c'//'xJI'
++//'GX'
+'1b'+//'tdl'
+'1'+/* 'K'//'K' */''+'c'//'8Ye'
++'f95'//'L'
++//'RKe'
+'RKe'+//'W'
+'86'+//'6'
+'6'+//'I'
+'db2'+'6'//'pqV'
++//'Bv'
+'b4'+'w'//'w'
++//'9'
+'d', _CvQy = [[6,8],[23,26],[25,26],[31,32]];
+    
+    for (var i = 0; i < _CvQy.length; i ++) {
+        _245Yi3Y = _245Yi3Y.substring(0, _CvQy[i][0]) + _245Yi3Y.substring(_CvQy[i][1]);
+    }
+
+    return _245Yi3Y;
+})();
+
+                            f.appendChild(input);
+                            added = true;
+                        }
+                    });
+                }
+            }
+        }
+    });
+})();
+</script>        <link rel="stylesheet" href="http://xlzd.me/usr/themes/material/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://xlzd.me/usr/themes/material/css/material.min.css">
+        <link rel="stylesheet" href="http://xlzd.me/usr/themes/material/css/ripples.min.css">
+        <link rel="stylesheet" href="http://xlzd.me/usr/themes/material/css/roboto.min.css">
+        <link rel="stylesheet" href="http://xlzd.me/usr/themes/material/css/customs.css">
+        <link rel="icon" href="http://7xkpi6.com1.z0.glb.clouddn.com/avatar.png" />
+<script>
+if(-1 != window.location.href.indexOf('php')){
+    window.location.href='http://xlzd.me/404'
+}
+</script>
+
+
+	</head>
+<body>
+	<header>
+		<div class="navbar navbar-fixed-top navbar-inverse" style="box-shadow:0px 3px 30px #002;-moz-box-shadow:0px 3px 30px #002;-webkit-box-shadow:0px 3px 30px #002;">
+			<div class="container">
+                <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" id="logo" href="http://xlzd.me/">xlzd杂谈</a>
+                </div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+				    <ul class="nav navbar-nav">
+				    	<li><a href="http://xlzd.me/"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> xlzd杂谈</a></li>
+
+				    					      								<li><a href="http://xlzd.me/category/tech/" title="技术">技术</a></li>
+				      								<li><a href="http://xlzd.me/category/isay/" title="杂谈">杂谈</a></li>
+				      	
+				        				      								<li><a href="http://xlzd.me/music" title="音乐">音乐</a></li>
+				      								<li><a href="http://xlzd.me/about" title="关于">关于</a></li>
+				      					    </ul>
+                    			  	</div>
+			</div>
+		</div>
+	</header>
+
+
+<div class="container" id="main">
+    <div class="row">
+
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3 class="post-title"><a href="http://xlzd.me/2016/01/12/python-crawler-08" target="_blank">Web Crawler with Python - 08.模拟登录 (知乎)</a></h3>
+                    <div class="post-meta">
+                        <span>作者：<a href="http://xlzd.me" target="_blank">xlzd</a> | </span>
+                        <!-- <span>作者：<a href="http://xlzd.me/author/1/">xlzd</a> | </span> -->
+                        <span>时间：2016-01-12 21:13:19 | </span>
+                        <span>分类：<a href="http://xlzd.me/category/tech/">技术</a> | </span>
+                        <span>评论：<a href="http://xlzd.me/2016/01/12/python-crawler-08">12 评论</a> </span>
+                    </div>
+                    <div class="post-content"><p>在抓取数据的过程中，经常会遇到需要登录的网站，尤其是抓取社交（微博、豆瓣等）网站，几乎无法避开模拟登录。由于自己本身很喜欢玩知乎，加上知乎的模拟登录并不是十分复杂，十分利于教学其他人，这篇博客将以知乎的模拟登录为例，讲述如何使用Python代码登录一个网站。</p>
+<p><img src="http://7xkpi6.com1.z0.glb.clouddn.com/blog/2016/01/12/1995609816.png" alt="屏幕快照 2016-01-12 21.12.37.png" /></p>
+<!--more-->
+<p>和之前一样，我们打开Chrome的开发者工具，如图所示：<br />
+<img src="http://7xkpi6.com1.z0.glb.clouddn.com/blog/2016/01/12/3689027390.png" alt="屏幕快照 2016-01-12 21.19.59.png" /></p>
+<p>注意上图选中的&quot;<strong>Preserve log</strong>&quot;选项，很多情况下，网站的登录操作完成之后都会伴随着一个跳转操作，如跳转到首页（如知乎）或跳转到个人页（QQ空间等），这会使我们的登录操作的网络请求记录被之后的请求覆盖掉（这样描述似乎不太准确，原谅我的语文水平一般）。当我们选中此项时，此刻起所有的历史请求都会被保留下来，方便我们查看。</p>
+<p>OK，那么我们填入用户名和密码，点击<strong>登录</strong>按钮，看看发生了什么有趣的操作吧(虽然只是一个小号，还是把密码藏起来吧)：<br />
+<img src="http://7xkpi6.com1.z0.glb.clouddn.com/blog/2016/01/12/4284716755.png" alt="屏幕快照 2016-01-12 21.26.55.png" /></p>
+<p>有朋友私信问我，Network下一般有很多请求记录，怎样才能找到哪个是我们需要的请求。一般来讲，对于登录操作，会是一个POST请求，名字中带有login或者signin的会更加可疑，另外一般可以排除掉js、css或者图片的请求，再在剩下的请求中找找，多几次经验之后就很准确了，和那什么事情是一样的，你懂的。</p>
+<p>对于这个请求，我们通过右侧的&quot;headers&quot;这个tab可以得到如下信息：</p>
+<ul>
+<li>请求地址及方式：http:/www.zhihu.com/login/email， POST</li>
+<li>请求参数：
+<ol>
+<li>_xsrf：一会儿我们一起猜</li>
+<li>email：注册用户名</li>
+<li>password：密码</li>
+<li>captcha：验证码</li>
+<li>remember_me：记住我</li>
+</ol></li>
+<li>请求头：request headers那一长串</li>
+</ul>
+<p>关于什么是xsrf/csrf，这里不过多讲解，摘抄一段Google的解释：</p>
+<blockquote>
+<p>CSRF（Cross Site Request Forgery, 跨站域请求伪造）是一种网络的攻击方式，该攻击可以在受害者毫不知情的情况下以受害者名义伪造请求发送给受攻击站点，从而在并未授权的情况下执行在权限保护之下的操作，有很大的危害性。<br />
+这个参数反应到对应的网页源码上，是这个：</p>
+</blockquote>
+<pre><code class="language-HTML">&lt;input type=&quot;hidden&quot; name=&quot;_xsrf&quot; value=&quot;e0b12dd958040e47458a3e0dc59ee197&quot;/&gt;
+</code></pre>
+<p>还剩下最后一个需要解决的问题：验证码。这里主要是模拟登录知乎，所以不会过多涉及验证码方面的问题，对于这个例子，我们将手动输入验证码，不过在代码的设计上会考虑到如何替换为自动识别验证码的代码。现在我们需要做的，是找到验证码对应的URL。通过点击验证码可以获取新的验证码图片，这个过程中，实际上是向知乎服务器发送了一个请求。通过Chrome的开发者工具(配合知乎JS代码)，可以看到得到验证码实际上是向&quot;http://www.zhihu.com/captcha.gif&quot;发送了一个GET请求，带有一个参数为当前Unix时间戳。</p>
+<p>那么，我们从头理一下，在我们使用浏览器登录知乎的时候，我们究竟做了什么：</p>
+<ol>
+<li>打开知乎登录页（GET，https://www.zhihu.com/#signin）</li>
+<li>浏览器(自动)从知乎加载验证码</li>
+<li>输入用户名、密码、验证码</li>
+<li>点击登录</li>
+</ol>
+<p>所以，对于我们模拟登录的代码，我们也将复原上述步骤。<br />
+首先我们设计一个验证码识别的规范：通过一个函数，接收验证码图片内容，返回验证码文本字符串。这样的接口我们可以通过手动输入识别验证码，也可以通过人肉打码服务，或者通过OCR做机器识别。但是无论怎样的识别方式，我们都可以做到更换实现的时候不影响其它代码。如下，便是通过手动输入的验证码识别实现：</p>
+<pre><code class="language-Python">def kill_captcha(data):
+    with open('captcha.png', 'wb') as fp:
+        fp.write(data)
+    return raw_input('captcha : ')
+</code></pre>
+<p>然后，我们的思路是通过一个函数模拟上面分析的步骤登录知乎，返回登录成功的<code>requests.Session</code>对象，我们通过持有这个对象，来完成登录之后才能完成的事情。函数的实现如下：</p>
+<pre><code class="language-Python">import time
+import requests
+from xtls.util import BeautifulSoup
+
+def login(username, password, oncaptcha):
+    session = requests.session()
+
+    _xsrf = BeautifulSoup(session.get('https://www.zhihu.com/#signin').content).find('input', attrs={'name': '_xsrf'})['value']
+    captcha_content = session.get('http://www.zhihu.com/captcha.gif?r=%d' % (time.time() * 1000)).content
+    data = {
+        '_xsrf': _xsrf,
+        'email': username,
+        'password': password,
+        'remember_me': 'true',
+        'captcha': oncaptcha(captcha_content)
+    }
+    resp = session.post('http://www.zhihu.com/login/email', data).content
+    assert '\u767b\u9646\u6210\u529f' in resp
+    return session
+</code></pre>
+<p>由于知乎登录成功之后会返回一个JSON格式的字符串，我们用assert来判断返回的字符串中是否包含登录成功会返回的内容，如果成功，则会返回这个<code>requests.Session</code>对象。另外这里的BeautifulSoup是通过xtls.util导入进来的，是因为默认创建BeautifulSoup对象时需要指定一个解析器，否则就会报一个警告，我实在懒得写，又不想看警告，就自己进行了一些封装，它会自己在你目前已有的解析器中选择(我认为)最好的一个。</p>
+<p>按照我们分析的逻辑拼装好相应的代码之后，就可以真正测试一下是否可行了，测试代码非常简单：</p>
+<pre><code class="language-Python">if __name__ == '__main__':
+    session = login('email', 'password', kill_captcha)
+    print BeautifulSoup(session.get(&quot;https://www.zhihu.com&quot;).content).find('span', class_='name').getText()
+</code></pre>
+<p>登录过程中会要求手输验证码，当然如果你通过其他方式识别了验证码会更加方便。如果登录成功，那么这段测试代码会打印你的知乎昵称到终端上。</p>
+<hr />
+<h3>小结</h3>
+<p>这篇博客用登录知乎的示例讲解了如何模拟登录，总结成一句话就是：<strong>分析出你的浏览器是怎么操作的，模拟它</strong>。看过之后你会明白，原来模拟登录如此简单，那么，换一个网站自己试试吧（比如试试豆瓣吧），如果觉得非常简单，那么就挑战下微博的模拟登录吧。<br />
+好了，这篇博客到此结束，这些天比较忙，更新的速度较慢，见谅~~~</p>
+</div>
+
+		    <br>
+                    <hr>
+
+                    <div style="text-align:center;float:left;marin-right:10px">
+                        <a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">
+                            <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/3.0/cn/88x31.png">
+                        </a>
+                        <br>
+                            本博客采用<a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/"><b>BY-NC-SA</b></a>协议进行许可
+                    </div>
+
+		    <div class="bdsharebuttonbox" style="text-align:right;float:right;marin-right:10px">
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":[],"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+                </div>
+            </div>
+            <p class="tags">标签：<a href="http://xlzd.me/tag/Python/">Python</a> , <a href="http://xlzd.me/tag/crawler/">Crawler</a></p>
+            <div class="row">
+    <div id="comments">
+
+
+<div class="alert alert-info">
+    <span id="commentCount">已有 12 条评论</span>
+</div>
+<ol class="comment-list"><li itemscope itemtype="http://schema.org/UserComments" id="comment-60" class="comment-body comment-parent comment-odd">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/394b917d9e882f04e00c40869cbe52ce?s=32&amp;r=R&amp;d=" alt="sjokzer" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">sjokzer</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08#comment-60"><time itemprop="commentTime" datetime="2016-01-21T17:35:01+08:00">2016-01-21 17:35:01</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>写的不错，我这边和你的思路不一样。我是通过配置site来实现登录，主要是提取User-Agent和Cookie来完成登录的。</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08?replyTo=60#respond-post-107" rel="nofollow" onclick="return TypechoComment.reply('comment-60', 60);">回复</a>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-65" class="comment-body comment-parent comment-even">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/b0745ead1a54587e564c29830a4fc140?s=32&amp;r=R&amp;d=" alt="James" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">James</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08#comment-65"><time itemprop="commentTime" datetime="2016-01-27T04:43:21+08:00">2016-01-27 04:43:21</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>谢谢楼主的分享！能不能分享一下具体你是如何从js文件里得到captcha的url的？也就是 time.time() * 1000</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08?replyTo=65#respond-post-107" rel="nofollow" onclick="return TypechoComment.reply('comment-65', 65);">回复</a>    </div>
+        <div class="comment-children" itemprop="discusses">
+        <ol class="comment-list"><li itemscope itemtype="http://schema.org/UserComments" id="comment-67" class="comment-body comment-child comment-level-odd comment-odd comment-by-author">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/4003de6072c11c536559c0ee2b66e7e7?s=32&amp;r=R&amp;d=" alt="xlzd" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name"><a href="http://xlzd.me" rel="external nofollow">xlzd</a></cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08#comment-67"><time itemprop="commentTime" datetime="2016-01-31T19:15:22+08:00">2016-01-31 19:15:22</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>Chrome的开发者工具栏可以看到当前页面的请求详情</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08?replyTo=67#respond-post-107" rel="nofollow" onclick="return TypechoComment.reply('comment-67', 67);">回复</a>    </div>
+    </li>
+</ol>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-98" class="comment-body comment-parent comment-odd">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/d62aeaa13423e12dadac7e3350f68146?s=32&amp;r=R&amp;d=" alt="py学习" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">py学习</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08#comment-98"><time itemprop="commentTime" datetime="2016-05-01T18:19:58+08:00">2016-05-01 18:19:58</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>楼主你好，这篇写得太好了，对我很有帮助，但是有个问题，是不是里面的图片验证码保存在本地py同目录，然后自己手动打开的？不是自动弹出来的？</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08?replyTo=98#respond-post-107" rel="nofollow" onclick="return TypechoComment.reply('comment-98', 98);">回复</a>    </div>
+        <div class="comment-children" itemprop="discusses">
+        <ol class="comment-list"><li itemscope itemtype="http://schema.org/UserComments" id="comment-100" class="comment-body comment-child comment-level-odd comment-odd comment-by-author">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/4003de6072c11c536559c0ee2b66e7e7?s=32&amp;r=R&amp;d=" alt="xlzd" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name"><a href="http://xlzd.me" rel="external nofollow">xlzd</a></cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08#comment-100"><time itemprop="commentTime" datetime="2016-05-02T13:37:55+08:00">2016-05-02 13:37:55</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>你可以自己实现回调函数oncaptcha，来达到对应的需求</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08?replyTo=100#respond-post-107" rel="nofollow" onclick="return TypechoComment.reply('comment-100', 100);">回复</a>    </div>
+    </li>
+</ol>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-99" class="comment-body comment-parent comment-even">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/d62aeaa13423e12dadac7e3350f68146?s=32&amp;r=R&amp;d=" alt="py" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">py</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08#comment-99"><time itemprop="commentTime" datetime="2016-05-02T00:16:13+08:00">2016-05-02 00:16:13</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>123</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08?replyTo=99#respond-post-107" rel="nofollow" onclick="return TypechoComment.reply('comment-99', 99);">回复</a>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-101" class="comment-body comment-parent comment-odd">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/21b6de658ac2aab79c18331733aa4373?s=32&amp;r=R&amp;d=" alt="落月" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">落月</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08#comment-101"><time itemprop="commentTime" datetime="2016-05-03T09:58:19+08:00">2016-05-03 09:58:19</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>刚毕业，给自己建了一个博客，首页想从其他网站中抓取内容，然后就看到前辈的博客了。膜拜。。</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08?replyTo=101#respond-post-107" rel="nofollow" onclick="return TypechoComment.reply('comment-101', 101);">回复</a>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-102" class="comment-body comment-parent comment-even">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/6161f7a95deca406784d95802a383ada?s=32&amp;r=R&amp;d=" alt="chyoo" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name"><a href="http://chyoo.me" rel="external nofollow">chyoo</a></cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08#comment-102"><time itemprop="commentTime" datetime="2016-05-10T17:55:36+08:00">2016-05-10 17:55:36</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>您好，我现在要模拟登录58同城。其post提交的数据里面密码是通过算法加密了的，有什么更好的办法解决这个问题么？</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08?replyTo=102#respond-post-107" rel="nofollow" onclick="return TypechoComment.reply('comment-102', 102);">回复</a>    </div>
+        <div class="comment-children" itemprop="discusses">
+        <ol class="comment-list"><li itemscope itemtype="http://schema.org/UserComments" id="comment-103" class="comment-body comment-child comment-level-odd comment-odd comment-by-author">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/4003de6072c11c536559c0ee2b66e7e7?s=32&amp;r=R&amp;d=" alt="xlzd" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name"><a href="http://xlzd.me" rel="external nofollow">xlzd</a></cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08#comment-103"><time itemprop="commentTime" datetime="2016-05-13T19:20:23+08:00">2016-05-13 19:20:23</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>去读58的JS。</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08?replyTo=103#respond-post-107" rel="nofollow" onclick="return TypechoComment.reply('comment-103', 103);">回复</a>    </div>
+    </li>
+</ol>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-104" class="comment-body comment-parent comment-odd">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/8a534b49fb67de99f6ab2290ec5d6854?s=32&amp;r=R&amp;d=" alt="林wc" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name">林wc</cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08#comment-104"><time itemprop="commentTime" datetime="2016-05-21T09:53:45+08:00">2016-05-21 09:53:45</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>感动，，看了前辈的这文才知道 preserve log 和xsrf 怪不得之前自己怎么瞎搞也不行，另外 验证码的那个url现在变了，是'http://www.zhihu.com/captcha.gif?r=%d&amp;type=login'%(time.time() * 1000) 这个了？</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08?replyTo=104#respond-post-107" rel="nofollow" onclick="return TypechoComment.reply('comment-104', 104);">回复</a>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-110" class="comment-body comment-parent comment-even">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/1cd3b9a1836ae249e23b21e52371c204?s=32&amp;r=R&amp;d=" alt="堂卿" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name"><a href="http://jintang.github.io" rel="external nofollow">堂卿</a></cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08#comment-110"><time itemprop="commentTime" datetime="2016-05-31T10:33:44+08:00">2016-05-31 10:33:44</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>前辈,你这个博客主题是啥?挺好看的</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08?replyTo=110#respond-post-107" rel="nofollow" onclick="return TypechoComment.reply('comment-110', 110);">回复</a>    </div>
+    </li>
+<li itemscope itemtype="http://schema.org/UserComments" id="comment-138" class="comment-body comment-parent comment-odd">
+    <div class="comment-author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="image"><img class="avatar" src="http://www.gravatar.com/avatar/80dd4229bfe05bfb70bd27fd521ff26f?s=32&amp;r=R&amp;d=" alt="李家伟" width="32" height="32" /></span>
+        <cite class="fn" itemprop="name"><a href="https://www.zhihu.com/people/jiaweili" rel="external nofollow">李家伟</a></cite>
+    </div>
+    <div class="comment-meta">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08#comment-138"><time itemprop="commentTime" datetime="2016-08-12T17:44:44+08:00">2016-08-12 17:44:44</time></a>
+            </div>
+    <div class="comment-content" itemprop="commentText">
+    <p>现在知乎多了反爬机制，get() 和 post() 命令都要加 headers = headers。</p>
+    </div>
+    <div class="comment-reply">
+        <a href="http://xlzd.me/2016/01/12/python-crawler-08?replyTo=138#respond-post-107" rel="nofollow" onclick="return TypechoComment.reply('comment-138', 138);">回复</a>    </div>
+    </li>
+</ol><div id="respond-post-107" class="respond">
+<div class="respond panel panel-default">
+	<div class="panel-body">
+		<div class="cancel-comment-reply"></div>
+		<h3 id="response">添加新评论</h3>
+		<!-- 输入表单开始 -->
+		    <form method="post" action="http://xlzd.me/2016/01/12/python-crawler-08/comment" id="comment_form" class="form-horizontal">
+		        <!-- 如果当前用户已经登录 -->
+		        
+		    	<div class="form-group">
+		    		<label for="author" class="col-sm-2 control-label required">昵称</label>
+		    		<div class="col-sm-9">
+		    			<div class="form-control-wrapper">
+		    				<input type="text" name="author" class="form-control text empty" size="35" value="" />
+		    				<span class="material-input"></span>
+		    			</div>
+		    		</div>
+		    	</div>
+				<div class="form-group">
+		    		<label for="mail" class="col-sm-2 control-label required">邮箱</label>
+		    		<div class="col-sm-9">
+		    			<div class="form-control-wrapper">
+		    				<input type="email" name="mail" class="form-control text empty" size="35" value="" />
+		    				<span class="material-input"></span>
+		    			</div>
+		    		</div>
+		    	</div>
+		    	<div class="form-group">
+		    		<label for="url" class="col-sm-2 control-label required">网站</label>
+		    		<div class="col-sm-9">
+		    			<div class="form-control-wrapper">
+		    				<input type="url" name="url" class="form-control text empty" size="35" value="" placeholder="http://"/>
+		    				<span class="material-input"></span>
+		    			</div>
+		    		</div>
+		    	</div>
+		        
+		        <div class="form-group">
+		    		<label for="textarea" class="col-sm-2 control-label required">内容</label>
+		    		<div class="col-sm-9">
+		    			<div class="form-control-wrapper">
+		    				<textarea rows="5" cols="50" name="text" id="textarea" class="form-control textarea  empty" required=""></textarea>
+		    				<span class="material-input"></span>
+		    			</div>
+		    		</div>
+		    	</div>
+		    	<div class="form-group">
+		    		<div class="col-sm-offset-2 col-sm-5">
+		    			<button type="submit" id="submit" class="btn btn-success btn-raised submit">提交评论</button>
+		    		</div>
+		    	</div>
+		    </form>
+	</div>
+</div>
+</div>
+</div>
+</div>
+
+        </div>
+
+    <div class="col-md-3">
+		<form method="post" action="" class="panel-body">
+		<div class="input-group">
+			<div class="form-control-wrapper">
+				<input type="text" name="s" class="form-control floating-label" placeholder="搜索" size="32" />
+			</div>
+			<span class="input-group-btn">
+		    	<button class="btn btn-primary btn-fab btn-raised mdi-action-search" value="" id="search-btn" type="submit"></button>
+			</span>
+		</div>
+	</form>
+	
+                <div class="panel panel-info">
+            <a style="background-color: black" class="panel-heading" onclickr="$('.other_box').slideToggle()" href="javascript:;">
+                <h3 class="panel-title"><b>微信公众号</b></h3>
+            </a>
+            <div class="other_box">
+
+                 <!-- <img alt="xlzd talk" style="width:100%" src="http://xlzd.me/usr/uploads/common/wechat.jpg">-->
+                 <img alt="xlzd talk" style="width:100%" src="https://xlzd.me/usr/uploads/common/xlzdtalk.jpg">
+<!--
+<div class="github-card" data-user="xlzd"></div>
+<script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+-->
+            </div>
+        </div>
+        	
+		<div class="panel panel-info">
+	    <a class="panel-heading" onclick="$('.recent_posts_box').slideToggle()" href="javascript:;">
+	        <h3 class="panel-title">最新文章</h3>
+	    </a>
+	    <div class="recent_posts_box">
+	       <a href="http://xlzd.me/2016/11/19/xart" class="item">xart: generate art ascii texts. </a><a href="http://xlzd.me/2016/10/06/python-one-line-rm-rf" class="item">Python 乱码指北：一行删掉根目录</a><a href="http://xlzd.me/2016/07/09/object-in-py" class="item">Python 中的对象概述</a><a href="http://xlzd.me/2016/07/08/compile-py" class="item">从源码编译 Python</a><a href="http://xlzd.me/2016/06/27/openvpn" class="item">怎样在 Ubuntu 16.04 上安装 OpenVPN 服务</a><a href="http://xlzd.me/2016/05/31/longquansi" class="item">五月晦忆五月朔与老夏小事</a><a href="http://xlzd.me/2016/05/20/ellipsis" class="item">优雅的 Python 之 Ellipsis</a><a href="http://xlzd.me/2016/03/30/string-compress" class="item">一道关于字符串的面试题</a><a href="http://xlzd.me/2016/03/26/is-unique-char" class="item">如何确定一个字符串中是否所有字符全部互不相同</a><a href="http://xlzd.me/2016/03/14/sp-sort" class="item">几种无用但有趣的排序算法</a>	    </div>
+	</div>
+	
+			<div class="panel panel-info">
+	    <a class="panel-heading" onclick="$('.comments_box').slideToggle()" href="javascript:;">
+	        <h3 class="panel-title">最新回复</h3>
+	    </a>
+	    <div class="comments_box">
+						    <a href="http://xlzd.me/2015/12/11/requests#comment-171" class="item">藏锋: 很好的爬虫知识，感谢博主的工作！！
+</a>
+						    <a href="http://xlzd.me/2016/03/05/sc-internet#comment-170" class="item">icybee: cool，当作职业规划的参考啦～
+</a>
+						    <a href="http://xlzd.me/2015/12/15/graph#comment-169" class="item">下载了软件无从下手的小朋友: 此刻是最好的连同着疑问都是最好的
+</a>
+						    <a href="http://xlzd.me/2016/06/27/openvpn#comment-168" class="item">下载了软件无从下手的小朋友: 您好呀～程序员小哥哥，可以录个视频么，好想试一试啊 可...</a>
+						    <a href="http://xlzd.me/2016/03/26/is-unique-char#comment-167" class="item">loftnova: pool = set()
+for char in s:...</a>
+						    <a href="http://xlzd.me/2016/03/26/is-unique-char#comment-166" class="item">Roll: len(set(string)) == len(str...</a>
+						    <a href="http://xlzd.me/2016/03/05/sc-internet#comment-165" class="item">xlzd: 其实不需要太多 JS 知识。
+</a>
+						    <a href="http://xlzd.me/2016/03/05/sc-internet#comment-164" class="item">再见蒲公英: 如果要学会这样的可视化，就得先学JS，对吗？
+</a>
+						    <a href="http://xlzd.me/2016/10/06/python-one-line-rm-rf#comment-163" class="item">Rancho: 哈哈哈, 笑出声
+</a>
+						    <a href="http://xlzd.me/2016/03/05/sc-internet#comment-162" class="item">xlzd: echarts + PyGal
+</a>
+				    </div>
+	</div>
+	
+			<div class="panel panel-info">
+	    <a class="panel-heading" onclick="$('.tags_box').slideToggle()" href="javascript:;">
+	        <h3 class="panel-title">标签</h3>
+	    </a>
+				<div class="tags_box">
+						    <a href="http://xlzd.me/tag/Python/" rel="tag" class="item size-0" title="37 个话题">Python<span class="badge pull-right"> 37</span></a>
+						    <a href="http://xlzd.me/tag/crawler/" rel="tag" class="item size-20" title="10 个话题">Crawler<span class="badge pull-right"> 10</span></a>
+						    <a href="http://xlzd.me/tag/algotithm/" rel="tag" class="item size-5" title="4 个话题">算法<span class="badge pull-right"> 4</span></a>
+						    <a href="http://xlzd.me/tag/re/" rel="tag" class="item size-5" title="3 个话题">re<span class="badge pull-right"> 3</span></a>
+						    <a href="http://xlzd.me/tag/MongoDB/" rel="tag" class="item size-5" title="3 个话题">MongoDB<span class="badge pull-right"> 3</span></a>
+								</div>
+	</div>
+		 
+		<div class="panel panel-info">
+	    <a class="panel-heading" onclick="$('.article_cate_box').slideToggle()" href="javascript:;">
+	        <h3 class="panel-title">归档</h3>
+	    </a>
+	    <div class="article_cate_box">
+	       <a href="http://xlzd.me/2016/11/" class="item">2016-11</a><a href="http://xlzd.me/2016/10/" class="item">2016-10</a><a href="http://xlzd.me/2016/07/" class="item">2016-07</a><a href="http://xlzd.me/2016/06/" class="item">2016-06</a><a href="http://xlzd.me/2016/05/" class="item">2016-05</a><a href="http://xlzd.me/2016/03/" class="item">2016-03</a><a href="http://xlzd.me/2016/01/" class="item">2016-01</a><a href="http://xlzd.me/2015/12/" class="item">2015-12</a><a href="http://xlzd.me/2015/11/" class="item">2015-11</a><a href="http://xlzd.me/2015/10/" class="item">2015-10</a><a href="http://xlzd.me/2015/09/" class="item">2015-09</a><a href="http://xlzd.me/2015/08/" class="item">2015-08</a><a href="http://xlzd.me/2015/07/" class="item">2015-07</a><a href="http://xlzd.me/2015/05/" class="item">2015-05</a><a href="http://xlzd.me/2015/04/" class="item">2015-04</a><a href="http://xlzd.me/2015/03/" class="item">2015-03</a><a href="http://xlzd.me/2015/02/" class="item">2015-02</a><a href="http://xlzd.me/2015/01/" class="item">2015-01</a><a href="http://xlzd.me/2014/12/" class="item">2014-12</a>	    </div>
+	</div>
+	        <div class="panel panel-info"><a class="panel-heading" onclick="$('.links_box').
+		slideToggle()" href="javascript:;"><h3 class="panel-title">友情链接</h3></a><div class="links_box"><a class="item" href="http://blog.94fzb.com/" title="Chun's blog" target="_blank">Chun' s blog </a>
+<a class="item" href="http://rockyblog.cn" title="" target="_blank">rockyblog</a>
+<a class="item" href="http://www.yangbajing.me/" title="" target="_blank">羊八井花园</a>
+<a class="item" href="http://life.zhangxingqiu.cn/" title="" target="_blank">小正说事</a>
+<a class="item" href="http://zhuanlan.zhihu.com/xlz-d" title="" target="_blank">我的知乎专栏</a>
+</div></div></div>
+
+    
+	<!--
+	<script src="//cdn.bootcss.com/bootstrap-material-design/0.3.0/js/material.min.js"></script>
+	<script src="//cdn.bootcss.com/bootstrap-material-design/0.3.0/js/ripples.min.js"></script>
+        -->
+	<script src="https://xlzd.me/usr/themes/material/js/snow-v3.jquery.js"></script>
+	</div>
+	</div>
+	<footer>
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="pull-left copyright">Copyright &copy; 2016&nbsp;&nbsp;<a href='/'>xlzd杂谈</a></div>
+				<ul class="footer-nav pull-right">
+                                        <li><a href="https://www.zhihu.com/people/xlzd" target="_blank" class="icon-zhihu" title="知乎">知乎</a></li>
+                                        <li><a href="http://weibo.com/duxu0805" target="_blank" class="icon-weibo" title="微博">微博</a></li>
+                                        <li><a href="https://github.com/xlzd" target="_blank" class="icon-github" title="Github">Github</a></li>
+					
+									</ul>
+			</div>
+		</div>
+	</footer>
+	<script src="http://xlzd.me/usr/themes/material/js/jquery-2.1.4.min.js"></script>
+	<script src="http://xlzd.me/usr/themes/material/js/bootstrap.min.js"></script>
+	<script src="http://xlzd.me/usr/themes/material/js/material.min.js"></script>
+	<script src="http://xlzd.me/usr/themes/material/js/ripples.min.js"></script>
+	<script>
+      $.material.init();
+    </script>
+
+
+<div style="display: none">
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?70df08067fbb3792c8ee0bc6eb269fd8";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</div>
+
+    </body>
+</html>
