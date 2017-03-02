@@ -1,11 +1,12 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#import unicodecsv as csv
+import unicodecsv as csv
 import requests
 import json
 import time
 import codecs
+import os
 
 global page
 page = 1
@@ -45,17 +46,21 @@ def main():
 		'pn': '1',
 		'kd': 'Python' 
 		}
-	with codecs.open('../practiceOnLaGou/result.txt', 'wb', encoding='utf-8') as fp:
+	with open('../practiceOnLaGou/result.csv', 'wb') as csvfile:
+		csvwriter = csv.writer(csvfile, encoding='utf-8')
+		csvwriter.writerow((u'公司名称',u'职位',u'薪水'));
 		while page < 3:
 			time.sleep(1)
 			json_obj = download_json(url, data)
 			Recruitment = parse_json(json_obj)
+			
 			for job in Recruitment:
-				fp.write(u'{companyShortName}\t {positionName}\t {salary}\n'.format(companyShortName= job['companyShortName'],positionName = job['positionName'],salary = job['salary']))
+				csvwriter.writerow((job['companyShortName'],job['positionName'],job['salary']))
 			page += 1
 			data['first'] = 'false'
 			data['pn'] = str(page)
 
+	os.system('iconv -f UTF-8 -t GB18030 result.csv > result_xls.csv')
 
 
 if __name__ == '__main__':
