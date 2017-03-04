@@ -18,7 +18,7 @@ def download_json(url,POST_DATA):
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.80 Safari/537.36',
         'Accept': 'application/json, text/javascript, */*; q=0.01',
         'Accept-Language': 'zh-CN,zh;q=0.8,ja;q=0.6,en;q=0.4',
-        'Cookie': 'user_trace_token=20170226193129-41ce0fcd7d6e4355b9e2fb8189da8fed; LGUID=20170226193130-1e2f8576-fc17-11e6-8dcc-525400f775ce; index_location_city=%E5%85%A8%E5%9B%BD; JSESSIONID=4A3745C108594AE553C95E27594B4F1C; _gat=1; PRE_UTM=; PRE_HOST=; PRE_SITE=; PRE_LAND=https%3A%2F%2Fwww.lagou.com%2Fzhaopin%2FPython%2F%3FlabelWords%3Dlabel; TG-TRACK-CODE=index_search; SEARCH_ID=0d2a41cce279489a9941f0797bde2697; _ga=GA1.2.2085845228.1488108693; Hm_lvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1488108693; Hm_lpvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1488388441; LGSID=20170302010615-61799a6c-fea1-11e6-a6ad-525400f775ce; LGRID=20170302011345-6d511a93-fea2-11e6-a6ad-525400f775ce'
+        'Cookie': 'Your cookie'
     })
 	return r.json()
 
