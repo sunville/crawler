@@ -27,29 +27,22 @@ def get_all_pages(url):
 
 
 def download_manga(directory,url):
-	page = 1
-	path = directory+str(page)+'.jpg'
-	html = requests.get(url, headers = Headers, stream=True)
-	print html.content
-	imgs = etree.HTML(html.content).xpath('//div[@class="tbCenter"]//div[@class="tbCenter"]/img[@id="qTcms_pic"]')
-	for img in imgs:
-		img_url = img.xpath('@src')
-		print img_url
+
 
 
 def main():
-	#indices_names = get_all_pages(MANGA_INDEX_URL);
+	indices_names = get_all_pages(MANGA_INDEX_URL);
 
 	PATH = u'/Users/tony/Desktop/Brynhildr_in_the_Darkness/'
-	test_url = 'http://www.tazhe.com/mh/9170/1187211.html'
-	download_manga(PATH,test_url)
-	# for item in indices_names:
-	# 	name = item['name']
-	# 	directory = PATH + name
-	# 	if not os.path.exists(directory):
-	# 		os.makedirs(directory)
-	# 		url = MANGA_URL + item['url']
-	# 		download_manga(directory,url)
+
+	for item in indices_names:
+		name = item['name']
+		directory = PATH + name
+		if not os.path.exists(directory):
+			os.makedirs(directory)
+		url = MANGA_URL + item['url']
+		download_manga(directory,url)
+
 
 
 if __name__ == '__main__':
