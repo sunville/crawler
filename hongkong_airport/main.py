@@ -1,6 +1,6 @@
 import json
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -92,6 +92,8 @@ def main() -> int:
     cfg_cargo = bool(getattr(config, "cargo", False))
     cfg_arrival = bool(getattr(config, "arrival", True))
     cfg_out = getattr(config, "out", None)
+    cfg_prev = int(getattr(config, "previous_days", 0))
+    cfg_future = int(getattr(config, "future_days", 0))
 
     # validate
     try:
@@ -100,25 +102,63 @@ def main() -> int:
         print(f"Invalid date in config: {e}", file=sys.stderr)
         return 1
 
-    try:
-        data = fetch_flights(
-            span=cfg_span,
-            date_str=cfg_date,
-            lang=cfg_lang,
-            include_cargo=cfg_cargo,
-            arrival=cfg_arrival,
-        )
-    except requests.HTTPError as http_err:
-        print(f"HTTP error: {http_err}", file=sys.stderr)
-        if http_err.response is not None:
-            print(
-                f"Response {http_err.response.status_code}: {http_err.response.text[:500]}",
-                file=sys.stderr,
+    # Build date range [D - previous_days, D + future_days]
+    base_dt = datetime.strptime(cfg_date, "%Y-%m-%d")
+    start_dt = base_dt - timedelta(days=cfg_prev)
+    end_dt = base_dt + timedelta(days=cfg_future)
+
+    # Aggregate results by date, merge lists if duplicated by span
+    aggregated_by_date = {}
+
+    current_dt = start_dt
+    while current_dt <= end_dt:
+        date_str = current_dt.strftime("%Y-%m-%d")
+        try:
+            resp_data = fetch_flights(
+                span=cfg_span,
+                date_str=date_str,
+                lang=cfg_lang,
+                include_cargo=cfg_cargo,
+                arrival=cfg_arrival,
             )
-        return 2
-    except requests.RequestException as req_err:
-        print(f"Request error: {req_err}", file=sys.stderr)
-        return 3
+        except requests.HTTPError as http_err:
+            print(f"HTTP error for {date_str}: {http_err}", file=sys.stderr)
+            if http_err.response is not None:
+                print(
+                    f"Response {http_err.response.status_code}: {http_err.response.text[:500]}",
+                    file=sys.stderr,
+                )
+            return 2
+        except requests.RequestException as req_err:
+            print(f"Request error for {date_str}: {req_err}", file=sys.stderr)
+            return 3
+
+        # resp_data is expected to be a list of day dictionaries
+        if isinstance(resp_data, list):
+            for day_obj in resp_data:
+                d = day_obj.get("date")
+                if not d:
+                    continue
+                if d not in aggregated_by_date:
+                    aggregated_by_date[d] = {
+                        "date": d,
+                        "arrival": day_obj.get("arrival"),
+                        "cargo": day_obj.get("cargo"),
+                        "list": list(day_obj.get("list", [])),
+                        "lastUpdatedTime": day_obj.get("lastUpdatedTime"),
+                    }
+                else:
+                    # Merge flight lists
+                    aggregated_by_date[d]["list"].extend(day_obj.get("list", []))
+        else:
+            # Fallback: store raw under the exact date
+            if date_str not in aggregated_by_date:
+                aggregated_by_date[date_str] = resp_data
+
+        current_dt += timedelta(days=1)
+
+    # Convert to list sorted by date
+    data = [aggregated_by_date[k] for k in sorted(aggregated_by_date.keys())]
 
     if cfg_out:
         with open(cfg_out, "w", encoding="utf-8") as f:

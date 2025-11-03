@@ -1,11 +1,18 @@
+from datetime import datetime
+
 # Configuration for Hong Kong Airport flight crawler
 
 # Time range in days to query (API span)
 span = 1
 
-# Date in YYYY-MM-DD. Example: "2025-11-03"
-# Leave as None to use today's date
-date = "2025-11-03"
+# Date in YYYY-MM-DD. Automatically set to today's date from system time
+date = datetime.now().strftime("%Y-%m-%d")
+
+# How many days before the base date to include (integer >= 0)
+previous_days = 91
+
+# How many days after the base date to include (integer >= 0)
+future_days = 14
 
 # Language code: "en" (English), "tc" (Traditional Chinese), "sc" (Simplified Chinese)
 lang = "en"
